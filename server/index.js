@@ -8,17 +8,17 @@ app.use(express.static(__dirname + '/../public/dist'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/books', (req, res) => {
-  axios({ url: 'http://localhost:3030/books', method: 'GET' }).then((response) => {
-    console.log('res:', response);
+  axios.get('http://localhost:3030/books').then((response) => {
     res.send(response.data);
   });
 });
 
 app.get('/book/:id', (req, res) => {
   const id = req.params.id;
-  db.find(id, response => {
-    console.log(response);
-    res.send(response);
+  axios.get('http://localhost:3030/book/' + id).then((response) => {
+    console.log('response:', response.data);
+    res.redirect('/');
+    res.end(response.data);
   })
 })
 
